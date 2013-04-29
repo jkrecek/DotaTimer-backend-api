@@ -1,0 +1,25 @@
+{
+  "channel_name": "name",
+  "channel_pass": "45343543535453453",
+  "changed": "1358191080",
+  "timer": {
+    "value":"1358191080",
+    "nick":"Frca"
+  },
+  "delete": {
+    "value":"1358191080",
+    "nick":"Frca"
+  },  
+  "users": [
+    {
+      "nick": "frca",
+      "state": "yes",
+      "reason": "muze_bejt"
+    },
+    {
+      "nick": "nekdojinej",
+      "state": "yes",
+      "reason": "muze_bejt"
+    }
+  ] 
+}

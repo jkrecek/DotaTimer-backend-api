@@ -1,0 +1,20 @@
+{
+  "channel_name":"Frca",
+  "channel_pass":"pyco",
+  "changed":1358532971,
+  "timer":{
+    "value":"",
+    "nick":""
+  },
+  "delete":{
+    "value":"",
+    "nick":""
+  },
+  "users":[
+    {
+      "nick":"Frca",
+      "state":"",
+      "reason":""
+    }
+  ]
+}
