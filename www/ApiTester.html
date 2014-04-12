@@ -6,12 +6,6 @@
 
         <title>ApiTester</title>
 
-        <script type="text/javascript" src="/js/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/jquery.cookie.js"></script>
-        <script type="text/javascript" src="/js/jquery.nette.js"></script>
-        <script type="text/javascript" src="/js/jquery.ajaxform.js"></script>
-        <script type="text/javascript" src="/js/ApiTester.js"></script>
-
         <style>
             p {
                 display: table-row;
@@ -72,5 +66,99 @@
             <label>Output</label>
             <textarea id="result" cols="100" rows="8" > </textarea>
         </p>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script type="text/javascript">
+            var url;
+            var post;
+            var method;
+
+            $(document).ready(function() {
+                $(".result_p").hide();
+
+                if (getCookie("fArgs") != undefined)
+                    $('#args').text(getCookie("fArgs"));
+                if (getCookie("fUrl") != undefined)
+                    $('#url').val(getCookie("fUrl"));
+                if (getCookie("fMethod") != undefined)
+                    $('#method').val(getCookie("fMethod"));
+
+                $("#submit").on('click', buttonClick);
+            });
+
+            function buttonClick() {
+                var args = getArgs();
+                setCookie("fArgs", args);
+
+                if (getRelativeUrl() == "") {
+                    alert("Url must be set");
+                    return;
+                }
+                setCookie("fUrl", getRelativeUrl());
+
+                url = getRelativeUrl();
+                method = getMethod();
+                setCookie("fMethod", method);
+                post = "";
+                if (method == "GET") {
+                    if (args)
+                        url += "?" + args;
+                } else {
+                    post = args;
+                }
+
+                load();
+            }
+
+            function load() {
+                $.ajax({
+                    type: method,
+                    url: url,
+                    data: post,
+                    dataType: "text",
+                    success: function(data, status, xhr) {
+                        $(".result_p").show();
+                        $("#status").text("SUCCESS, code: "+xhr.status+" ("+status+")");
+                        $("#result").text(data? data : "");
+                    },
+                    error: function(xhr, data, status) {
+                        $(".result_p").show();
+                        $("#status").text("ERROR, code: "+xhr.status + " ("+status+")");
+                        $("#result").text(xhr.responseText ? xhr.responseText : "");
+                    }
+                });
+            }
+
+            function getMethod() {
+                return $('#method option:selected').text();
+            }
+
+            function getArgs() {
+                return $('#args').val().trim();
+            }
+
+            function getRelativeUrl() {
+                return $('#url').val().trim();
+            }
+
+            function getCookie(key) {
+                var cookies = document.cookie.split(";");
+                for (var i = 0; i < cookies.length; ++i) {
+                    var pair = cookies[i].trim().split("=");
+                    if (pair[0] == key)
+                        return pair[1];
+                };
+
+                return undefined;
+            }
+
+            function setCookie(key, value) {
+                var d = new Date();
+                d.setTime(d.getTime() + (30*24*60*60*1000));
+                var expires = "expires="+d.toGMTString();
+                document.cookie = key + "=" + value + "; " + expires;
+            }
+
+        </script>
     </body>
 </html>
